@@ -1,15 +1,25 @@
 package main
 
 import (
-    "fmt"
-    "net/http"
+	"html/template"
+	"log"
+	"net/http"
 )
 
+var templates *template.Template
+
 func main() {
-    http.HandleFunc("/", HelloServer)
-    http.ListenAndServe(":8080", nil)
+
+	templates = template.Must(template.ParseGlob("templates/*.html"))
+
+	http.HandleFunc("/", HomePage)
+	//http.ListenAndServe(":8080", nil)
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func HelloServer(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "<h1>Imersão Full Cycle</h1>")
+func HomePage(w http.ResponseWriter, r *http.Request) {
+	templates.ExecuteTemplate(w, "home.html", nil)
+
+	//fmt.Fprintf(w, "This is the Home page!")
 }
