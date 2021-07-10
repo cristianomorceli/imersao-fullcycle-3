@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  app-frontend:
+    build: ./frontend
+    entrypoint: ./.docker/entrypoint.sh
+    container_name: desafio-fullcycle-3-frontend-app
+    ports:
+      - 3001:3000
+    volumes:
+      - ./frontend:/home/node/app
+    extra_hosts: 
+      - 'host.docker.internal:172.17.0.1'
+
+
+  app-backend:
+    build: ./backend
+    entrypoint: ./.docker/entrypoint.sh
+    container_name: desafio-fullcycle-3-backend-app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend:/home/node/app
+    extra_hosts: 
+      - 'host.docker.internal:172.17.0.1'
